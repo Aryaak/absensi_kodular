@@ -139,7 +139,7 @@ class SiswaController extends Controller
         if (Auth::user() && Auth::user()->wali_kelas != 'admin' && Auth::user()->wali_kelas) {
             $data['siswa'] = Siswa::where('kelas', Auth::user()->wali_kelas)->orderBy('id_siswa', 'desc')->get();
         } else {
-            $data['siswa'] = Siswa::orderBy('id_siswa', 'desc')->get();
+            $data['siswa'] = Siswa::orderBy('nsin', 'asc')->get();
         }
         return view('pages.siswa', compact('data'));
     }

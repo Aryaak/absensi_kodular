@@ -42,8 +42,7 @@
                     </li>
                     @endif
 
-                    @if (\App\Models\Auth::user() && (!\App\Models\Auth::user()->wali_kelas ||
-                    \App\Models\Auth::user()->wali_kelas))
+                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas)
                     <li class="nav-item">
                         <a href="{{route('siswa.index')}}" class="nav-link {{request()->is('siswa') ? 'active' : ''}}">
                             <i class="fa fa-user" aria-hidden="true"></i>
