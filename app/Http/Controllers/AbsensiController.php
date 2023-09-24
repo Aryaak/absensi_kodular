@@ -53,6 +53,13 @@ class AbsensiController extends Controller
                 ->where('tanggal_masuk', '<=', $data['date_to']);
         }
 
+        if (Auth::user()->wali_kelas) {
+            $wali_kelas = Auth::user()->wali_kelas;
+            $data['absensi'] = $data['absensi']
+                ->whereHas('siswa', function ($q) use ($wali_kelas) {
+                    $q->where('kelas', $wali_kelas);
+                });
+        }
         $data['absensi'] = $data['absensi']->get();
 
         return view('pages.index', compact('data'));
@@ -72,7 +79,7 @@ class AbsensiController extends Controller
         return view('pages.ortu');
     }
 
-    public function ortuHasil()
+    public function ortuHasil2()
     {
         $data['nisn'] = request('nisn');
         $data['siswa'] = Siswa::where('nisn', $data['nisn'])->first();
@@ -82,5 +89,20 @@ class AbsensiController extends Controller
             })->get();
 
         return view('pages.hasil', compact('data'));
+    }
+
+    public function ortuHasil()
+    {
+        $siswa = Siswa::where('email_ortu', request('email_ortu'))->first();
+
+        if (isset($siswa) && Hash::check(request('password_orangtua'), $siswa->password_orangtua)) {
+            $data['siswa'] = $siswa;
+            $data['absensi'] = Absensi::whereHas('siswa', function ($q) use ($siswa) {
+                $q->where('id_siswa', $siswa->id_siswa);
+            })->get();
+            return view('pages.hasil', compact('data'));
+        }
+
+        return redirect()->back()->with('failed', 'email/password salah');
     }
 }

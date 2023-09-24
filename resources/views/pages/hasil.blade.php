@@ -9,7 +9,7 @@
     <div class="mt-5 pt-5">
         <h3><b>Laporan Absensi</b></h3>
         <div class="d-flex justify-content-between align-items-start mb-5">
-            <p><b>Laporan Absensi Kelas 12-A</b></p>
+            <p><b>Laporan Absensi Kelas {{$data['siswa']->kelas}}</b></p>
             <div>
                 <p class="m-0">
                     <b>Atas Nama</b>
@@ -53,7 +53,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <th scope="row" colspan="7" class="text-center">Absensi tidak ditemukan</th>
+                    <th scope="row" colspan="10" class="text-center">Absensi tidak ditemukan</th>
                 </tr>
                 @endforelse
     

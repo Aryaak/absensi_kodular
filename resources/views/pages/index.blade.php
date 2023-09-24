@@ -1,5 +1,18 @@
 @extends('layouts.main')
 
+@section('header')
+<div class="d-flex justify-content-between align-items-center mx-3 mt-5">
+    <h1 class="m-0">Laporan Absensi</h1>
+    <h4 class="m-0">
+        @if (\App\Models\Auth::user()->wali_kelas)
+        <b>Laporan Absensi Kelas {{\App\Models\Auth::user()->wali_kelas}}</b>
+        @else
+        <b>Laporan Absensi Semua Kelas</b>
+        @endif
+    </h4>
+</div><!-- /.row -->
+@endsection
+
 @section('content')
 <section class="container mx-auto mt-5">
     <div class="d-flex justify-content-between mb-3">

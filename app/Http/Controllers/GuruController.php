@@ -38,4 +38,35 @@ class GuruController extends Controller
         }
         return redirect()->back()->with('error', 'ID/Password salah');
     }
+
+    public function index()
+    {
+        $data['guru'] = Guru::orderBy('id_guru', 'desc')->get();
+        return view('pages.guru', compact('data'));
+    }
+
+    public function store()
+    {
+        $data = request()->all();
+        $data['password'] = Hash::make($data['password']);
+        Guru::create($data);
+        return redirect()->back()->with('success', 'Guru berhasil ditambahkan');
+    }
+
+    public function update()
+    {
+        $data = request()->except('_token', '_method', 'password');
+        if (request('password')) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        Guru::where('id_guru', $data['id_guru'])->update($data);
+        return redirect()->back()->with('success', 'Guru berhasil diubah');
+    }
+
+    public function delete()
+    {
+        Guru::where('id_guru', request('id_guru'))->delete();
+        return redirect()->back()->with('success', 'Guru berhasil dihapus');
+    }
 }

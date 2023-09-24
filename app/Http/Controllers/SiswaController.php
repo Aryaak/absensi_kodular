@@ -133,4 +133,38 @@ class SiswaController extends Controller
             'data' => null
         ]);
     }
+
+    public function index()
+    {
+        $data['siswa'] = Siswa::orderBy('id_siswa', 'desc')->get();
+        return view('pages.siswa', compact('data'));
+    }
+
+    public function store()
+    {
+        $data = request()->all();
+        $data['password_siswa'] = Hash::make($data['password_siswa']);
+        $data['password_orangtua'] = Hash::make($data['password_orangtua']);
+        Siswa::create($data);
+        return redirect()->back()->with('success', 'Siswa berhasil ditambahkan');
+    }
+
+    public function update()
+    {
+        $data = request()->except('_token', '_method', 'password_siswa', 'password_orangtua');
+        if (request('password_siswa')) {
+            $data['password_siswa'] = Hash::make($data['password_siswa']);
+        }
+        if (request('password_orangtua')) {
+            $data['password_orangtua'] = Hash::make($data['password_orangtua']);
+        }
+        Siswa::where('nisn', $data['nisn'])->update($data);
+        return redirect()->back()->with('success', 'Siswa berhasil diubah');
+    }
+
+    public function delete()
+    {
+        Siswa::where('nisn', request('nisn'))->delete();
+        return redirect()->back()->with('success', 'Siswa berhasil dihapus');
+    }
 }

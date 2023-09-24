@@ -6,23 +6,28 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
                 <div class="image">
                     <img src="{{asset('img/profile.jpg')}}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
                     <a href="#" class="d-block">{{\App\Models\Auth::user()->nama_guru}}</a>
+                    @if (\App\Models\Auth::user()->wali_kelas)
+                    <a href="#" class="d-block">Wali Kelas {{\App\Models\Auth::user()->wali_kelas}}</a>
+                    @else
+                    <a href="#" class="d-block">Admin</a>
+                    @endif
                 </div>
             </div>
 
             <!-- Sidebar Menu -->
             <nav class="mt-2" style="width: 100px !important;">
-                <ul  class="nav nav-pills  nav-sidebar flex-column" data-widget="treeview" role="menu"
+                <ul class="nav nav-pills  nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="{{route('index')}}" class="nav-link active">
+                        <a href="{{route('index')}}" class="nav-link {{request()->is('/') ? 'active' : ''}}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Semua Laporan
@@ -30,6 +35,27 @@
                         </a>
                     </li>
 
+                    @if (!\App\Models\Auth::user()->wali_kelas)
+                    <li class="nav-item">
+                        <a href="{{route('siswa.index')}}" class="nav-link {{request()->is('siswa') ? 'active' : ''}}">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <p>
+                                Siswa
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('guru.index')}}" class="nav-link {{request()->is('guru') ? 'active' : ''}}">
+                            <i class="fa fa-address-card" aria-hidden="true"></i>
+                            <p>
+                                Guru
+                            </p>
+                        </a>
+                    </li>
+
+                    
+                    @endif
                     <li class="nav-item " style="margin-top: 500px !important;">
                         <a href="{{route('logout')}}" class="nav-link ">
                             <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -50,12 +76,7 @@
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mx-3 mt-5">
-                        <h1 class="m-0">Laporan Absensi</h1>
-                        <h4 class="m-0">
-                            <b>Laporan Absensi Kelas 12-A</b>
-                        </h4>
-                </div><!-- /.row -->
+                @yield('header')
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
