@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between align-items-center mx-3 mt-5">
     <h1 class="m-0">Laporan Absensi</h1>
     <h4 class="m-0">
-        @if (\App\Models\Auth::user()->wali_kelas)
+        @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas)
         <b>Laporan Absensi Kelas {{\App\Models\Auth::user()->wali_kelas}}</b>
         @else
         <b>Laporan Absensi Semua Kelas</b>
@@ -54,6 +54,7 @@
                         placeholder="Masukkan nama disini">
                 </div>
             </div>
+            @if (\App\Models\Auth::user() && !\App\Models\Auth::user()->wali_kelas)
             <div class="col-4">
                 <div class="mb-3">
                     <label for="kelas" class="form-label">Kelas</label>
@@ -61,6 +62,7 @@
                         placeholder="Masukkan kelas disini">
                 </div>
             </div>
+            @endif
             <div class="col-4">
                 <div class="mb-3">
                     <label for="keterangan" class="form-label">Keterangan</label>
@@ -119,7 +121,7 @@
             </tr>
             @empty
             <tr>
-                <th scope="row" colspan="7" class="text-center">Absensi tidak ditemukan</th>
+                <th scope="row" colspan="10" class="text-center">Absensi tidak ditemukan</th>
             </tr>
             @endforelse
 

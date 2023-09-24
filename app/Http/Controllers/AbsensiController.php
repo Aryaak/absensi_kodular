@@ -53,7 +53,7 @@ class AbsensiController extends Controller
                 ->where('tanggal_masuk', '<=', $data['date_to']);
         }
 
-        if (Auth::user()->wali_kelas) {
+        if (Auth::user() && Auth::user()->wali_kelas) {
             $wali_kelas = Auth::user()->wali_kelas;
             $data['absensi'] = $data['absensi']
                 ->whereHas('siswa', function ($q) use ($wali_kelas) {
