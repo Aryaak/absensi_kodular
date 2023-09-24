@@ -14,10 +14,12 @@
                     @if (\App\Models\Auth::user())
                     <a href="#" class="d-block">{{\App\Models\Auth::user()->nama_guru}}</a>
                     @endif
-                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas)
+                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas && \App\Models\Auth::user()->wali_kelas != 'admin')
                     <a href="#" class="d-block">Wali Kelas {{\App\Models\Auth::user()->wali_kelas}}</a>
-                    @else
+                    @elseif(\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
                     <a href="#" class="d-block">Admin</a>
+                    @else
+                    <a href="#" class="d-block">Guru</a>
                     @endif
                 </div>
             </div>
@@ -28,6 +30,7 @@
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
+                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas != 'admin')
                     <li class="nav-item">
                         <a href="{{route('index')}}" class="nav-link {{request()->is('/') ? 'active' : ''}}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -36,8 +39,9 @@
                             </p>
                         </a>
                     </li>
+                    @endif
 
-                    @if (\App\Models\Auth::user() && !\App\Models\Auth::user()->wali_kelas)
+                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
                     <li class="nav-item">
                         <a href="{{route('siswa.index')}}" class="nav-link {{request()->is('siswa') ? 'active' : ''}}">
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -55,8 +59,6 @@
                             </p>
                         </a>
                     </li>
-
-                    
                     @endif
                     <li class="nav-item " style="margin-top: 500px !important;">
                         <a href="{{route('logout')}}" class="nav-link ">

@@ -36,8 +36,12 @@
                 <td class="text-center">
                     @if ($item->wali_kelas)
                     <small>{{$item->wali_kelas}}</small>
-                    @else 
-                    Admin
+                    @elseif($item->wali_kelas != 'admin') 
+                    <small>Guru</small>
+                    @elseif($item->wali_kelas == 'admin') 
+                    <small>Admin</small>
+                    @else
+                    <small>Guru</small>
                     @endif
                 </td>
                 <td class="text-center">
@@ -78,7 +82,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="wali_kelas" class="form-label">Wali Kelas</label>
-                                    <input required type="text" class="form-control" id="wali_kelas" name="wali_kelas"
+                                    <input type="text" class="form-control" id="wali_kelas" name="wali_kelas"
                                         placeholder="Masukkan kelas guru" value="{{$item->wali_kelas}}">
                                 </div>
                                 <div class="form-group">
@@ -157,7 +161,7 @@
                     </div>
                     <div class="form-group">
                         <label for="wali_kelas" class="form-label">Wali Kelas</label>
-                        <input required type="text" class="form-control" id="wali_kelas" name="wali_kelas"
+                        <input type="text" class="form-control" id="wali_kelas" name="wali_kelas"
                             placeholder="Masukkan kelas guru">
                     </div>
                     <div class="form-group">

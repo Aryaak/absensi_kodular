@@ -34,6 +34,9 @@ class GuruController extends Controller
                 "/"
             );
 
+            if ($data->wali_kelas == 'admin') {
+                return redirect()->route('siswa.index');
+            }
             return redirect()->route('index');
         }
         return redirect()->back()->with('error', 'ID/Password salah');
