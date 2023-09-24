@@ -14,7 +14,8 @@
                     @if (\App\Models\Auth::user())
                     <a href="#" class="d-block">{{\App\Models\Auth::user()->nama_guru}}</a>
                     @endif
-                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas && \App\Models\Auth::user()->wali_kelas != 'admin')
+                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas &&
+                    \App\Models\Auth::user()->wali_kelas != 'admin')
                     <a href="#" class="d-block">Wali Kelas {{\App\Models\Auth::user()->wali_kelas}}</a>
                     @elseif(\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
                     <a href="#" class="d-block">Admin</a>
@@ -41,7 +42,8 @@
                     </li>
                     @endif
 
-                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
+                    @if (\App\Models\Auth::user() && (!\App\Models\Auth::user()->wali_kelas ||
+                    \App\Models\Auth::user()->wali_kelas))
                     <li class="nav-item">
                         <a href="{{route('siswa.index')}}" class="nav-link {{request()->is('siswa') ? 'active' : ''}}">
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -50,7 +52,9 @@
                             </p>
                         </a>
                     </li>
+                    @endif
 
+                    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
                     <li class="nav-item">
                         <a href="{{route('guru.index')}}" class="nav-link {{request()->is('guru') ? 'active' : ''}}">
                             <i class="fa fa-address-card" aria-hidden="true"></i>

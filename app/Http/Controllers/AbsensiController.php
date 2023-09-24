@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AbsensiExport;
 use App\Models\Absensi;
 use App\Models\Auth;
-use App\Models\Guru;
 use App\Models\Siswa;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AbsensiController extends Controller
 {
@@ -61,6 +61,10 @@ class AbsensiController extends Controller
                 });
         }
         $data['absensi'] = $data['absensi']->get();
+
+        if (request('export') == 1) {
+            return Excel::download(AbsensiExport::class, 'Absensi Siswa.xlsx');
+        }
 
         return view('pages.index', compact('data'));
     }

@@ -42,13 +42,13 @@
                 <tr>
                     <th scope="row" class="text-center">{{$loop->iteration}}</th>
                     <td class="text-center"><img width="100" height="150" src="{{asset($item->foto_masuk)}}" alt="Foto Masuk"></td>
-                    <td class="text-center">{{$item->tanggal_masuk}}</td>
-                    <td class="text-center"><img width="100" height="150" src="{{asset($item->foto_pulang)}}" alt="Foto Pulang"></td>
-                    <td class="text-center">{{$item->tanggal_pulang}}</td>
-                    <td class="text-center">{{$item->siswa->nisn}}</td>
+                <td class="text-center"><small>{{date('d M Y H:i:s', strtotime($item->tanggal_masuk))}}</small></td>
+                <td class="text-center"><img width="100" height="150" src="{{asset($item->foto_pulang)}}" alt="Foto Pulang"></td>
+                <td class="text-center"><small>{{date('d M Y H:i:s', strtotime($item->tanggal_pulang))}}</small></td>
+                <td class="text-center">{{$item->siswa->nisn}}</td>
                     <td class="text-center">{{$item->siswa->kelas}}</td>
                     <td class="text-center">{{$item->siswa->nama_siswa}}</td>
-                    <td class="text-center">{{date('d M Y', strtotime($item->tanggal))}}</td>
+                    <td class="text-center">{{date('d M Y ', strtotime($item->tanggal))}}</td>
                     <td class="text-center">{{$item->keterangan}}</td>
                 </tr>
                 @empty

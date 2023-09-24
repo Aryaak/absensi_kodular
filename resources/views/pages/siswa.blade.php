@@ -9,13 +9,16 @@
 
 @section('content')
 <section class="container mx-auto mt-5">
+    @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
     <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#createModal">
         Tambah Siswa
     </button>
+    @endif
+
     @if (session('success'))
-        <div class="bg bg-success w-100 p-3">
-            {{session('success')}}
-        </div>
+    <div class="bg bg-success w-100 p-3">
+        {{session('success')}}
+    </div>
     @endif
     <table class="table" style="overflow-x: auto">
         <thead>
@@ -27,7 +30,9 @@
                 <th scope="col" class="text-center">Alamat</th>
                 <th scope="col" class="text-center">Nama Ortu</th>
                 <th scope="col" class="text-center">Email Ortu</th>
+                @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
                 <th scope="col" class="text-center">Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -40,19 +45,23 @@
                 <td class="text-center"><small>{{$item->alamat}}</small></td>
                 <td class="text-center"><small>{{$item->nama_ortu}}</small></td>
                 <td class="text-center"><small>{{$item->email_ortu}}</small></td>
+                @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
                 <td class="text-center">
-                    <button type="button" class="btn btn-warning mb-2" data-toggle="modal" data-target="#editModal{{$item->nisn}}">
+                    <button type="button" class="btn btn-warning mb-2" data-toggle="modal"
+                        data-target="#editModal{{$item->nisn}}">
                         <i class="fa fa-edit text-light"></i>
                     </button>
-                    <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#deleteModal{{$item->nisn}}">
+                    <button type="button" class="btn btn-danger mb-2" data-toggle="modal"
+                        data-target="#deleteModal{{$item->nisn}}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
+                @endif
             </tr>
 
             <!-- Modal -->
-            <div class="modal fade" id="editModal{{$item->nisn}}" tabindex="-1" aria-labelledby="editModal{{$item->nisn}}Label"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal{{$item->nisn}}" tabindex="-1"
+                aria-labelledby="editModal{{$item->nisn}}Label" aria-hidden="true">
                 <form action="{{route('siswa.update')}}" method="POST">
                     @csrf
                     @method('PUT')
@@ -117,8 +126,8 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="deleteModal{{$item->nisn}}" tabindex="-1" aria-labelledby="deleteModal{{$item->nisn}}Label"
-                aria-hidden="true">
+            <div class="modal fade" id="deleteModal{{$item->nisn}}" tabindex="-1"
+                aria-labelledby="deleteModal{{$item->nisn}}Label" aria-hidden="true">
                 <form action="{{route('siswa.delete')}}" method="POST">
                     @csrf
                     @method('DELETE')
@@ -202,8 +211,8 @@
                     </div>
                     <div class="form-group">
                         <label for="password_orangtua" class="form-label">Password Ortu</label>
-                        <input required type="password" class="form-control" id="password_orangtua" name="password_orangtua"
-                            placeholder="Masukkan password ortu siswa">
+                        <input required type="password" class="form-control" id="password_orangtua"
+                            name="password_orangtua" placeholder="Masukkan password ortu siswa">
                     </div>
                 </div>
                 <div class="modal-footer">

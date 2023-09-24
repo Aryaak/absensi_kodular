@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\Auth;
 use App\Models\Siswa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -117,7 +118,6 @@ class SiswaController extends Controller
             Absensi::where('id_absensi', $absensi->id_absensi)
                 ->update([
                     'id_siswa' => $siswa->id_siswa,
-                    'keterangan' => 'Pulang',
                     'foto_pulang' => $file->move('img/pulang/', $file->getClientOriginalName()),
                     'lokasi_pulang' => request('lokasi_pulang'),
                     'tanggal_pulang' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s')
@@ -136,7 +136,11 @@ class SiswaController extends Controller
 
     public function index()
     {
-        $data['siswa'] = Siswa::orderBy('id_siswa', 'desc')->get();
+        if (Auth::user() && Auth::user()->wali_kelas != 'admin' && Auth::user()->wali_kelas) {
+            $data['siswa'] = Siswa::where('kelas', Auth::user()->wali_kelas)->orderBy('id_siswa', 'desc')->get();
+        } else {
+            $data['siswa'] = Siswa::orderBy('id_siswa', 'desc')->get();
+        }
         return view('pages.siswa', compact('data'));
     }
 
