@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\AbsensiExport;
 use App\Models\Absensi;
 use App\Models\Auth;
+use App\Models\Izin;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -62,8 +63,8 @@ class AbsensiController extends Controller
         }
         $data['absensi'] = $data['absensi']->get();
 
-        if (request('export') == 1) {
-            return Excel::download(AbsensiExport::class, 'Absensi Siswa.xlsx');
+        if (request('export')) {
+            Excel::download(AbsensiExport::class, 'Absensi Siswa.xlsx');
         }
 
         return view('pages.index', compact('data'));
@@ -108,5 +109,11 @@ class AbsensiController extends Controller
         }
 
         return redirect()->back()->with('failed', 'email/password salah');
+    }
+
+    public function izin()
+    {
+        Izin::create(request()->all());
+        return redirect()->back()->with('success', 'Izin berhasil');
     }
 }

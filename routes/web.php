@@ -40,3 +40,4 @@ Route::middleware('cekLogin')->group(function () {
 
 Route::get('ortu', [AbsensiController::class, 'ortu'])->name('ortu');
 Route::get('ortu/hasil', [AbsensiController::class, 'ortuHasil'])->name('ortu.hasil');
+Route::post('izin', [AbsensiController::class, 'izin'])->name('izin.store');

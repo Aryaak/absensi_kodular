@@ -22,6 +22,15 @@
             </div>
         </div>
 
+        <div>
+            <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#createModal">
+                Izin Siswa
+            </button>
+            <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#createModal">
+                Riwayat Izin Siswa
+            </button>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
@@ -33,22 +42,24 @@
                     <th scope="col" class="text-center">NISN</th>
                     <th scope="col" class="text-center">Kelas</th>
                     <th scope="col" class="text-center">Nama Siswa</th>
-                    <th scope="col" class="text-center">Tanggal</th>
                     <th scope="col" class="text-center">Keterangan</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($data['absensi'] as $item)
                 <tr>
-                    <th scope="row" class="text-center">{{$loop->iteration}}</th>
-                    <td class="text-center"><img width="100" height="150" src="{{asset($item->foto_masuk)}}" alt="Foto Masuk"></td>
-                <td class="text-center"><small>{{date('d M Y H:i:s', strtotime($item->tanggal_masuk))}}</small></td>
-                <td class="text-center"><img width="100" height="150" src="{{asset($item->foto_pulang)}}" alt="Foto Pulang"></td>
-                <td class="text-center"><small>{{date('d M Y H:i:s', strtotime($item->tanggal_pulang))}}</small></td>
-                <td class="text-center">{{$item->siswa->nisn}}</td>
+                    <td scope="row" class="text-center">{{$loop->iteration}}</td>
+                    <td class="text-center"><img width="100" height="150" src="{{asset($item->foto_masuk)}}"
+                            alt="Foto Masuk"></td>
+                    <td class="text-center"><small>{{date('d M Y H:i:s', strtotime($item->tanggal_masuk))}}</small></td>
+                    <td class="text-center"><img width="100" height="150" src="{{asset($item->foto_pulang)}}"
+                            alt="Foto Pulang"></td>
+                    <td class="text-center">
+                        <small>{{$item->tanggal_pulang ? date('d M Y H:i:s', strtotime($item->tanggal_pulang)) : '-'}}</small>
+                    </td>
+                    <td class="text-center">{{$item->siswa->nisn}}</td>
                     <td class="text-center">{{$item->siswa->kelas}}</td>
                     <td class="text-center">{{$item->siswa->nama_siswa}}</td>
-                    <td class="text-center">{{date('d M Y ', strtotime($item->tanggal))}}</td>
                     <td class="text-center">{{$item->keterangan}}</td>
                 </tr>
                 @empty
@@ -56,9 +67,75 @@
                     <th scope="row" colspan="10" class="text-center">Absensi tidak ditemukan</th>
                 </tr>
                 @endforelse
-    
+
             </tbody>
         </table>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <form action="{{route('izin.store')}}" method="POST">
+        @csrf
+        <input type="hidden" name="id_siswa" value="{{$data['siswa']->id_siswa}}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Izin Siswa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="tanggal" class="form-label">Tanggal</label>
+                        <input required type="date" class="form-control" id="tanggal" name="tanggal"
+                            placeholder="Masukkan tanggal izin siswa" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="lama" class="form-label">Lama Izin</label>
+                        <input required type="number" class="form-control" id="lama" name="lama"
+                            placeholder="Masukkan lama izin siswa" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan" class="form-label">Keterangan Izin</label>
+                        <textarea class="form-control" name="keterangan" id="keterangan" cols="30" rows="10"
+                            placeholder="Masukkan keterangan izin siswa"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="foto" class="form-label">Bukti Izin</label>
+                        <input required type="file" class="form-control" id="foto" name="foto"
+                            placeholder="Masukkan bukti izin siswa" value="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="riwayatModal" tabindex="-1" aria-labelledby="riwayatModalLabel" aria-hidden="true">
+        @csrf
+        <input type="hidden" name="id_siswa" value="{{$data['siswa']->id_siswa}}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="riwayatModalLabel">Riwayat Izin Siswa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+</div>
 @endsection

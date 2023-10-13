@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Exports;
-
-use App\Models\Absensi;
+use App\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class AbsensiExport implements FromCollection
+class UsersExport implements FromCollection
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
     public function collection()
     {
-        return Absensi::all();
+        return User::all();
     }
 }
