@@ -26,7 +26,7 @@
             <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#createModal">
                 Izin Siswa
             </button>
-            <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#createModal">
+            <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#riwayatModal">
                 Riwayat Izin Siswa
             </button>
         </div>
@@ -75,7 +75,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-    <form action="{{route('izin.store')}}" method="POST">
+    <form action="{{route('izin.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id_siswa" value="{{$data['siswa']->id_siswa}}">
         <div class="modal-dialog">
@@ -130,10 +130,27 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal Izin</th>
+                                <th>Foto</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data['izin'] as $item)
+                                <tr>
+                                    <td>{{explode(" ", $item->tanggal)[0]}}</td>
+                                    <td><img width="200" src="{{asset($item->foto)}}" alt="Foto Izin"></td>
+                                    <td>{{$item->keterangan}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>

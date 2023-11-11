@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
     <!-- shortcut icon -->
     <link rel="shortcut icon" href="{{asset('img/logo.png')}}">
+
+    @stack('styles')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

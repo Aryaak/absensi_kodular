@@ -51,6 +51,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{route('izin')}}" class="nav-link {{request()->is('izin') ? 'active' : ''}}">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <p>
+                                Izin
+                            </p>
+                        </a>
+                    </li>
                     @endif
 
                     @if (\App\Models\Auth::user() && \App\Models\Auth::user()->wali_kelas == 'admin')
